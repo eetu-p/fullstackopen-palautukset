@@ -15,15 +15,35 @@ const StatisticLine = ({ text, value }) => (
 const Statistics = ({ good, neutral, bad }) => (
   <div>
     <h2>Tilastot</h2>
-    {good + neutral + bad > 0
-      ? <>
-          <StatisticLine text="Hyvä" value={good} />
-          <StatisticLine text="Neutraali" value={neutral} />
-          <StatisticLine text="Huono" value={bad} />
-          <StatisticLine text="Arvosteluja saatu" value={good + neutral + bad} />
-          <StatisticLine text="Arvostelujen keskiarvo" value={(good + -bad) / (good + bad)} />
-          <StatisticLine text="Positiivisia palautteita" value={((1 / ((good + bad + neutral) / good)) * 100) + " %"} />
-        </>
+    { good + neutral + bad > 0
+      ? <table>
+          <tbody>
+            <tr>
+              <td>Hyvä</td>
+              <td>{good}</td>
+            </tr>
+            <tr>
+              <td>Neutraali</td>
+              <td>{neutral}</td>
+            </tr>
+            <tr>
+              <td>Huono</td>
+              <td>{bad}</td>
+            </tr>
+            <tr>
+              <td>Arvosteluja saatu</td>
+              <td>{good + neutral + bad}</td>
+            </tr>
+            <tr>
+              <td>Arvostelujen keskiarvo</td>
+              <td>{(good + -bad) / (good + bad)}</td>
+            </tr>
+            <tr>
+              <td>Positiivisia palautteita</td>
+              <td>{((1 / ((good + bad + neutral) / good)) * 100) + " %"}</td>
+            </tr>
+          </tbody>
+        </table>
       : <p>Palautetta ei olla vielä vastaanotettu.</p>
     }
   </div>
