@@ -4,21 +4,25 @@ const Header = () => (
   <h1>Anna palautetta</h1>
 )
 
-const FeedbackButton = ({ handleClick, text }) => (
-    <button onClick={handleClick}>{text}</button>
+const Button = ({ handleClick, text }) => (
+  <button onClick={handleClick}>{text}</button>
 )
 
-const Statistics = ({good, neutral, bad}) => (
+const StatisticLine = ({ text, value }) => (
+  <p>{text}: {value}</p>
+)
+
+const Statistics = ({ good, neutral, bad }) => (
   <div>
     <h2>Tilastot</h2>
     {good + neutral + bad > 0
       ? <>
-          <p>Hyvä: {good}</p>
-          <p>Neutraali: {neutral}</p>
-          <p>Huono: {bad}</p>
-          <p>Arvosteluja saatu: {good + neutral + bad} kpl</p>
-          <p>Arvostelujen keskiarvo: {(good + -bad) / (good + bad)}</p>
-          <p>Positiivisia palautteita: {(1 / ((good + bad + neutral) / good)) * 100} %</p>
+          <StatisticLine text="Hyvä" value={good} />
+          <StatisticLine text="Neutraali" value={neutral} />
+          <StatisticLine text="Huono" value={bad} />
+          <StatisticLine text="Arvosteluja saatu" value={good + neutral + bad} />
+          <StatisticLine text="Arvostelujen keskiarvo" value={(good + -bad) / (good + bad)} />
+          <StatisticLine text="Positiivisia palautteita" value={((1 / ((good + bad + neutral) / good)) * 100) + " %"} />
         </>
       : <p>Palautetta ei olla vielä vastaanotettu.</p>
     }
@@ -38,15 +42,15 @@ const App = () => {
   return (
     <div>
       <Header />
-      <FeedbackButton 
+      <Button 
         handleClick={incrementGood}
         text="hyvä"
       />
-      <FeedbackButton 
+      <Button 
         handleClick={incrementNeutral}
         text="neutraali"
       />
-      <FeedbackButton 
+      <Button 
         handleClick={incrementBad}
         text="huono"
       />
