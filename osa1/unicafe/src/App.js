@@ -11,12 +11,17 @@ const FeedbackButton = ({ handleClick, text }) => (
 const Statistics = ({good, neutral, bad}) => (
   <div>
     <h2>Tilastot</h2>
-    <p>Hyvä: {good}</p>
-    <p>Neutraali: {neutral}</p>
-    <p>Huono: {bad}</p>
-    <p>Arvosteluja saatu: {good + neutral + bad} kpl</p>
-    <p>Arvostelujen keskiarvo: {(good + -bad) / (good + bad)}</p>
-    <p>Positiivisia palautteita: {(1 / ((good + bad + neutral) / good)) * 100} %</p>
+    {good + neutral + bad > 0
+      ? <>
+          <p>Hyvä: {good}</p>
+          <p>Neutraali: {neutral}</p>
+          <p>Huono: {bad}</p>
+          <p>Arvosteluja saatu: {good + neutral + bad} kpl</p>
+          <p>Arvostelujen keskiarvo: {(good + -bad) / (good + bad)}</p>
+          <p>Positiivisia palautteita: {(1 / ((good + bad + neutral) / good)) * 100} %</p>
+        </>
+      : <p>Palautetta ei olla vielä vastaanotettu.</p>
+    }
   </div>
 )
 
