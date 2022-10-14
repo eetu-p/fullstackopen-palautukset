@@ -1,5 +1,5 @@
 import Course from "./Course"
-import Curriculum from "./Curriculum"
+import Header from "./Header"
 
 const App = () => {
   const courses = [
@@ -49,7 +49,8 @@ const App = () => {
 
   return (
     <div>
-      <Curriculum courses={courses} />
+      <Header text="Curriculum" />
+      {courses.map(course => <Course course={course} key={course.id} />)}
     </div>
   )
 }
