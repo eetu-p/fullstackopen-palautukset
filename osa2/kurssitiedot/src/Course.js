@@ -6,7 +6,7 @@ const Course = ({ course }) => {
 
   return (
     <>
-      <Header name={course.name}/>
+      <Header text={course.name}/>
       <Content course={course} />
       <TotalExercises numberOfExercises={course.parts.reduce((total, part) => total + part.exercises, 0)} />
     </>
