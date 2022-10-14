@@ -20,6 +20,7 @@ const App = () => {
         exercises: 14,
         id: 3
       },
+      
     ]
   }
 
