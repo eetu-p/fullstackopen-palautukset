@@ -8,11 +8,15 @@ const App = () => {
 
   const handleSubmit = event => {
     event.preventDefault();
-    setPersons([
-      ...persons,
-      { name: newName }
-    ])
-    setNewName("")
+    if (!persons.map(person => person.name).includes(newName)) {
+      setPersons([
+        ...persons,
+        { name: newName }
+      ])
+      setNewName("")
+    } else {
+      alert(`${newName} is already in the list.`)
+    }
   }
 
   return (
