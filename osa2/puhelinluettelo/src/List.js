@@ -1,10 +1,20 @@
+import Person from "./Person"
+
 const List = (props) => (
   <>
     <h2>Numbers</h2>
     <div>
       {props.persons
         .filter(person => person.name.toLowerCase().includes(props.searchTerm.toLowerCase()))
-        .map(person => <p key={person.name}>{person.name} {person.number}</p>)
+        .map(person => 
+          <Person 
+            key={person.name}
+            name={person.name} 
+            number={person.number} 
+            id={person.id}
+            handleDelete={props.handleDelete}
+          />
+        )
       }
     </div>
   </>

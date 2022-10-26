@@ -36,12 +36,16 @@ const App = () => {
     }
   }
 
+  const handleDelete = id => {
+    apiService.deletePerson(id).then(() => setPersons(persons.filter(person => person.id !== id)))
+  }
+
   return (
     <div>
       <h2>Phonebook</h2>
       <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
       <AddPerson handleSubmit={handleSubmit} newName={newName} setNewName={setNewName} newNumber={newNumber} setNewNumber={setNewNumber} />
-      <List persons={persons} searchTerm={searchTerm} />
+      <List persons={persons} searchTerm={searchTerm} handleDelete={handleDelete} />
     </div>
   )
 
