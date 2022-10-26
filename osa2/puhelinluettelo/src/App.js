@@ -21,16 +21,21 @@ const App = () => {
 
   const handleSubmit = event => {
     event.preventDefault();
+    let personObject;
+
     if (!persons.map(person => person.name).includes(newName)) {
-      setPersons([
-        ...persons,
-        { 
-          name: newName,
-          number: newNumber
-        }
-      ])
-      setNewName("")
-      setNewNumber("")
+      personObject = { 
+        name: newName,
+        number: newNumber
+      }
+      axios
+        .post("http://localhost:3001/persons", personObject)
+        .then(response => {
+          setPersons(persons.concat(response.data))
+          setNewName("")
+          setNewNumber("")
+        })
+        .catch(() => alert("Error when adding person"))
     } else {
       alert(`${newName} is already in the list.`)
     }
