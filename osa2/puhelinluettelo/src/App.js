@@ -3,6 +3,7 @@ import AddPerson from './AddPerson';
 import List from './List';
 import Search from './Search';
 import apiService from './services/api.service';
+import Notification from './Notification';
 
 const App = () => {
 
@@ -10,6 +11,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState("");
   const [searchTerm, setSearchTerm] = useState("")
+  const [notificationMessage, setNotificationMessage] = useState("")
 
   useEffect(() => {
     apiService.getAllPersons().then(personsData => setPersons(personsData))
@@ -29,6 +31,7 @@ const App = () => {
           setPersons(persons.concat(newPerson))
           setNewName("")
           setNewNumber("")
+          setNotificationMessage(`${newPerson.name} added successfully.`)
         })
         .catch(() => alert("Error when adding person"))
     } else {
@@ -41,17 +44,25 @@ const App = () => {
             setPersons(persons.map(person => person.id === editedPerson.id ? editedPerson : person))
             setNewName("")
             setNewNumber("")
+            setNotificationMessage(`${editedPerson.name} edited successfully.`)
           })
       }
     }
+
+    if (notificationMessage) setTimeout(() => setNotificationMessage(""), 5000)
   }
 
   const handleDelete = id => {
-    apiService.deletePerson(id).then(() => setPersons(persons.filter(person => person.id !== id)))
+    apiService.deletePerson(id).then(() => {
+      setPersons(persons.filter(person => person.id !== id))
+      setNotificationMessage(`${persons.find(person => person.id === id).name} deleted successfully.`)
+      setTimeout(() => setNotificationMessage(""), 5000)
+    })
   }
 
   return (
     <div>
+      <Notification message={notificationMessage} />
       <h2>Phonebook</h2>
       <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
       <AddPerson handleSubmit={handleSubmit} newName={newName} setNewName={setNewName} newNumber={newNumber} setNewNumber={setNewNumber} />

@@ -20,9 +20,10 @@ const editPerson = (id, object) => {
   return request.then(response => response.data)
 }
 
-export default {
+const returnObject = {
   getAllPersons,
   postPerson,
   deletePerson,
   editPerson
 }
+export default returnObject
