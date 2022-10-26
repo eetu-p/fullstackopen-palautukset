@@ -17,13 +17,13 @@ const App = () => {
 
   const handleSubmit = event => {
     event.preventDefault();
-    let personObject;
+    const personObject = { 
+      name: newName,
+      number: newNumber
+    }
+    let personToEdit, confirmation;
 
     if (!persons.map(person => person.name).includes(newName)) {
-      personObject = { 
-        name: newName,
-        number: newNumber
-      }
       apiService.postPerson(personObject)
         .then(newPerson => {
           setPersons(persons.concat(newPerson))
@@ -32,7 +32,17 @@ const App = () => {
         })
         .catch(() => alert("Error when adding person"))
     } else {
-      alert(`${newName} is already in the list.`)
+      confirmation = window.confirm(`${newName} is already in the list, edit the existing number?`) 
+      if (confirmation) {
+        personToEdit = persons.find(person => person.name === newName)
+        apiService
+          .editPerson(personToEdit.id, personObject)
+          .then(editedPerson => {
+            setPersons(persons.map(person => person.id === editedPerson.id ? editedPerson : person))
+            setNewName("")
+            setNewNumber("")
+          })
+      }
     }
   }
 

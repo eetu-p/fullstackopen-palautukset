@@ -15,8 +15,14 @@ const deletePerson = id => {
   return request.then(response => response.data)
 }
 
+const editPerson = (id, object) => {
+  const request = axios.put(`http://localhost:3001/persons/${id}`, object)
+  return request.then(response => response.data)
+}
+
 export default {
   getAllPersons,
   postPerson,
-  deletePerson
+  deletePerson,
+  editPerson
 }
