@@ -1,8 +1,8 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react'
 import AddPerson from './AddPerson';
 import List from './List';
 import Search from './Search';
+import apiService from './services/api.service';
 
 const App = () => {
 
@@ -12,11 +12,7 @@ const App = () => {
   const [searchTerm, setSearchTerm] = useState("")
 
   useEffect(() => {
-    axios
-      .get("http://localhost:3001/persons")
-      .then(response => {
-        setPersons(response.data)
-      })
+    apiService.getAllPersons().then(personsData => setPersons(personsData))
   }, [])
 
   const handleSubmit = event => {
@@ -28,10 +24,9 @@ const App = () => {
         name: newName,
         number: newNumber
       }
-      axios
-        .post("http://localhost:3001/persons", personObject)
-        .then(response => {
-          setPersons(persons.concat(response.data))
+      apiService.postPerson(personObject)
+        .then(newPerson => {
+          setPersons(persons.concat(newPerson))
           setNewName("")
           setNewNumber("")
         })
