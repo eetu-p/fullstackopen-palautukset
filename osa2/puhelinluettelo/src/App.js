@@ -11,7 +11,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState("");
   const [searchTerm, setSearchTerm] = useState("")
-  const [notificationMessage, setNotificationMessage] = useState("")
+  const [notification, setNotification] = useState({message: "", isError: false})
 
   useEffect(() => {
     apiService.getAllPersons().then(personsData => setPersons(personsData))
@@ -31,7 +31,10 @@ const App = () => {
           setPersons(persons.concat(newPerson))
           setNewName("")
           setNewNumber("")
-          setNotificationMessage(`${newPerson.name} added successfully.`)
+          setNotification({
+            message: `${newPerson.name} added successfully.`, 
+            isError: false
+          })
         })
         .catch(() => alert("Error when adding person"))
     } else {
@@ -40,29 +43,54 @@ const App = () => {
         personToEdit = persons.find(person => person.name === newName)
         apiService
           .editPerson(personToEdit.id, personObject)
-          .then(editedPerson => {
-            setPersons(persons.map(person => person.id === editedPerson.id ? editedPerson : person))
+          .then((editedPerson) => {
+            setPersons(persons.map(person => person.id === personToEdit.id ? editedPerson : person))
+            setNotification({
+              message: `${newName} edited successfully.`, 
+              isError: false
+            })
+          })
+          .catch(() => {
+            setPersons(persons.filter(person => person.id !== personToEdit.id))
+            setNotification({
+              message: `${newName} has already been removed from the server.`,
+              isError: true
+            })
+          })
+          .then(() => {
             setNewName("")
             setNewNumber("")
-            setNotificationMessage(`${editedPerson.name} edited successfully.`)
+            setTimeout(() => setNotification({message: "", isError: false}), 5000)
           })
       }
     }
 
-    if (notificationMessage) setTimeout(() => setNotificationMessage(""), 5000)
+    if (notification) setTimeout(() => setNotification({message: "", isError: false}), 5000)
   }
 
   const handleDelete = id => {
-    apiService.deletePerson(id).then(() => {
-      setPersons(persons.filter(person => person.id !== id))
-      setNotificationMessage(`${persons.find(person => person.id === id).name} deleted successfully.`)
-      setTimeout(() => setNotificationMessage(""), 5000)
-    })
+    apiService.deletePerson(id)
+      .then(() => {
+        setNotification({
+          message: `${persons.find(person => person.id === id).name} deleted successfully.`, 
+          isError: false
+        })
+      })
+      .catch(() => {
+        setNotification({
+          message: `${persons.find(person => person.id === id).name} has already been deleted from the server.`, 
+          isError: true
+        })
+      })
+      .then(() => {
+        setPersons(persons.filter(person => person.id !== id))
+        setTimeout(() => setNotification({message: "", isError: false}), 5000)
+      })
   }
 
   return (
     <div>
-      <Notification message={notificationMessage} />
+      <Notification message={notification.message} isError={notification.isError} />
       <h2>Phonebook</h2>
       <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
       <AddPerson handleSubmit={handleSubmit} newName={newName} setNewName={setNewName} newNumber={newNumber} setNewNumber={setNewNumber} />
