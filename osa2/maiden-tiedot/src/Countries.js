@@ -6,7 +6,7 @@ const Countries = ({ countries }) => {
   if (countries.length === 1) {
     return <CountryInfo country={countries[0]} />
   } else if (countries.length <= 10) {
-    return <CountryList list={countries.map(country => country.name.common)} />
+    return <CountryList countries={countries} />
   } else {
     return <p>Too many results, use a more specific term</p>
   }
