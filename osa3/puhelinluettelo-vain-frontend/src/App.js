@@ -37,7 +37,7 @@ const App = () => {
           })
         })
         .catch(error => {
-          console.error(error)
+          console.error(error.response.data.error)
           setNotification({
             message: error.response.data.error, 
             isError: true
