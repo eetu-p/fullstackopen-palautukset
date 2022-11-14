@@ -19,6 +19,33 @@ test("identifying field is called id", async () => {
   }
 })
 
+test("post a blog", async () => {
+  const numberOfBlogs = (await api.get("/api/blogs")).body.length
+  
+  console.log("numberOfBlogs is " + numberOfBlogs)
+
+  const body = {
+    "title": "Test blog",
+    "author": "Test author",
+    "url": "https://test",
+    "likes": 1
+  }
+
+  const response = await api
+    .post("/api/blogs")
+    .set('Content-Type', "application/json")
+    .send(body)
+
+  expect(response.body.title).toBe("Test blog")
+  expect(response.body.author).toBe("Test author")
+  expect(response.body.url).toBe("https://test")
+  expect(response.body.likes).toBe(1)
+  expect(response.body.id).toBeDefined()
+
+  const blogs = await api.get('/api/blogs')
+  expect(blogs.body.length).toBe(numberOfBlogs + 1)
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
