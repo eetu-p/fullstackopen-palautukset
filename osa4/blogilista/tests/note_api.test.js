@@ -1,8 +1,35 @@
 const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
-
 const api = supertest(app)
+const Blog = require('../models/blog')
+
+const initialBlogs = [
+  {
+    title: "Test blog 1",
+    author: "Matti Meikäläinen",
+    url: "https://fullstackopen.com",
+    likes: 13
+  },
+  {
+    title: "Test blog 2",
+    author: "Matti Meikäläinen",
+    url: "",
+  },
+  {
+    title: "Test blog 3",
+    author: "Maija Meikäläinen",
+    url: "https://fullstackopen.com"
+  }
+]
+
+beforeEach(async () => {
+  await Blog.deleteMany({})
+  let blogObject = new Blog(initialBlogs[0])
+  await blogObject.save()
+  blogObject = new Blog(initialBlogs[1])
+  await blogObject.save()
+})
 
 test('return blogs JSON', async () => {
   await api
@@ -22,8 +49,6 @@ test("identifying field is called id", async () => {
 test("post a blog", async () => {
   const numberOfBlogs = (await api.get("/api/blogs")).body.length
   
-  console.log("numberOfBlogs is " + numberOfBlogs)
-
   const body = {
     "title": "Test blog",
     "author": "Test author",
@@ -44,6 +69,18 @@ test("post a blog", async () => {
 
   const blogs = await api.get('/api/blogs')
   expect(blogs.body.length).toBe(numberOfBlogs + 1)
+})
+
+test("get 400 response if title and url aren't defined", async () => {
+  const newBlog = {
+    author: "Test author",
+    likes: 43
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400)
 })
 
 afterAll(() => {
