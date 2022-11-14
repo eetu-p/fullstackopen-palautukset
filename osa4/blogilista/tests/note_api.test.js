@@ -87,13 +87,38 @@ test("delete blog", async () => {
   let blogs = await api.get("/api/blogs")
   const idToDelete = blogs.body[0].id
   const numberOfBlogs = blogs.body.length
-  
+
   await api
     .delete(`/api/blogs/${idToDelete}`)
     .expect(204)
 
   blogs = await api.get("/api/blogs")
   expect(blogs.body.length).toBe(numberOfBlogs - 1)
+})
+
+test("update blog", async () => {
+  let blogs = await api.get("/api/blogs")
+  const idToUpdate = blogs.body[0].id
+
+  const updatedBlog = {
+    title: "Updated blog",
+    author: "Updated author",
+    url: "Updated URL",
+    likes: 1
+  }
+
+  await api
+    .put(`/api/blogs/${idToUpdate}`)
+    .set("Content-Type", "application/json")
+    .send(updatedBlog)
+
+  blogs = await api.get("/api/blogs")
+
+  expect(blogs.body[0].title).toBe("Updated blog")
+  expect(blogs.body[0].author).toBe("Updated author")
+  expect(blogs.body[0].url).toBe("Updated URL")
+  expect(blogs.body[0].likes).toBe(1)
+  expect(blogs.body[0].id).toBe(idToUpdate)
 })
 
 afterAll(() => {
