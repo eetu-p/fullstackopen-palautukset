@@ -83,6 +83,19 @@ test("get 400 response if title and url aren't defined", async () => {
     .expect(400)
 })
 
+test("delete blog", async () => {
+  let blogs = await api.get("/api/blogs")
+  const idToDelete = blogs.body[0].id
+  const numberOfBlogs = blogs.body.length
+  
+  await api
+    .delete(`/api/blogs/${idToDelete}`)
+    .expect(204)
+
+  blogs = await api.get("/api/blogs")
+  expect(blogs.body.length).toBe(numberOfBlogs - 1)
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
