@@ -46,6 +46,21 @@ test("identifying field is called id", async () => {
   }
 })
 
+test("blog likes are always defined", async () => {
+  const body = {
+    "title": "Test blog",
+    "author": "Test author",
+    "url": "https://test",
+  }
+
+  const response = await api
+    .post("/api/blogs")
+    .set("Content-Type", "application/json")
+    .send(body)
+
+  expect(response.body.likes).toBe(0)
+})
+
 test("post a blog", async () => {
   const numberOfBlogs = (await api.get("/api/blogs")).body.length
   
