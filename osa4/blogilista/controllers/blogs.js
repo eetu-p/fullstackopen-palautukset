@@ -7,6 +7,7 @@ const express = require("express")
 const blogsRouter = express.Router()
 const User = require("../models/user")
 const jwt = require('jsonwebtoken')
+const middleware = require('../utils/middleware')
 
 const mongoUrl = config.MONGODB_URI
 mongoose.connect(mongoUrl)
@@ -22,7 +23,7 @@ blogsRouter.get('/', async (request, response) => {
   response.json(blogs)
 })
 
-blogsRouter.post('/', async (request, response) => {
+blogsRouter.post('/', middleware.userExtractor, async (request, response) => {
 
   if (!request.body.title && !request.body.url) {
     return response.status(400).json({ error: "missing fields" })
@@ -49,7 +50,7 @@ blogsRouter.post('/', async (request, response) => {
   response.status(201).json(savedBlog)
 })
 
-blogsRouter.delete("/:id", async (request, response) => {
+blogsRouter.delete("/:id", middleware.userExtractor, async (request, response) => {
   const id = request.params.id
 
   const decodedToken = jwt.verify(request.token, process.env.SECRET)
@@ -72,7 +73,7 @@ blogsRouter.delete("/:id", async (request, response) => {
   response.status(204).end()
 })
 
-blogsRouter.put("/:id", async (request, response) => {
+blogsRouter.put("/:id", middleware.userExtractor, async (request, response) => {
   const id = request.params.id
   const updatedBlog = await Blog.findByIdAndUpdate(id, request.body, { new: true })
   response.status(201).json(updatedBlog)
