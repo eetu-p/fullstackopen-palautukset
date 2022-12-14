@@ -20,7 +20,7 @@ const Blog = ({blog}) => {
       { showInfo 
         ? <>
             <p>{blog.author}</p>
-            <p>{blog.likes} <button onClick={() => addLike(blog)}>Like</button></p>
+            <p>{`${blog.likes} like(s)`} <button onClick={() => addLike(blog)}>Like</button></p>
             <p>{blog.url}</p>
           </>
         : null
