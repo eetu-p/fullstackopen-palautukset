@@ -1,0 +1,17 @@
+.notification {
+    padding: 8px;
+    border: solid;
+}
+
+.blog-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 16px;
+}
+
+.blog-info {
+    border: solid;
+    border-width: 1px;
+    padding: 4px;
+}
