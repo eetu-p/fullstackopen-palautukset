@@ -112,7 +112,7 @@ const App = () => {
             if (a.likes < b.likes) return 1
             return 0
           })
-          .map(blog => <Blog key={blog.id} blog={blog} />)
+          .map(blog => <Blog key={blog.id} blog={blog} user={user} />)
         }
       </div>
     </div>
