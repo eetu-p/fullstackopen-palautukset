@@ -1,17 +1,18 @@
-import { useState } from "react"
+import { useState } from 'react'
+import PropTypes from 'prop-types'
 
 export const AddNewBlog = ({ addNewBlog }) => {
 
-  const [title, setTitle] = useState("")
-  const [author, setAuthor] = useState("")
-  const [url, setUrl] = useState("")
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [url, setUrl] = useState('')
 
   const handleAddBlog = async event => {
     event.preventDefault()
     await addNewBlog({ title, author, url })
-    setTitle("")
-    setAuthor("")
-    setUrl("")
+    setTitle('')
+    setAuthor('')
+    setUrl('')
   }
 
   return (
@@ -23,7 +24,7 @@ export const AddNewBlog = ({ addNewBlog }) => {
       </div>
       <div>
         <label>Author </label>
-        <input type="text" value={author} onChange={({ target })=> setAuthor(target.value)} />
+        <input type="text" value={author} onChange={({ target }) => setAuthor(target.value)} />
       </div>
       <div>
         <label>URL </label>
@@ -32,4 +33,8 @@ export const AddNewBlog = ({ addNewBlog }) => {
       <button type="submit">Create</button>
     </form>
   )
+}
+
+AddNewBlog.propTypes = {
+  addNewBlog: PropTypes.func.isRequired
 }

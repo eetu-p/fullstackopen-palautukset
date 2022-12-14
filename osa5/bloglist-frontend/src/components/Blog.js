@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react"
-import blogService from "../services/blogs"
+import { useEffect, useState } from 'react'
+import blogService from '../services/blogs'
+import PropTypes from 'prop-types'
 
 const Blog = ({ blog, user }) => {
 
@@ -27,21 +28,26 @@ const Blog = ({ blog, user }) => {
 
   return (
     <div className="blog-info">
-      {blog.title} <button onClick={() => setShowInfo(!showInfo)}>{showInfo ? "Hide" : "Show"}</button>
-      { showInfo 
+      {blog.title} <button onClick={() => setShowInfo(!showInfo)}>{showInfo ? 'Hide' : 'Show'}</button>
+      { showInfo
         ? <>
-            <p>{blog.author}</p>
-            <p>{`${blog.likes} like(s)`} <button onClick={() => addLike(blog)}>Like</button></p>
-            <p>{blog.url}</p>
-            { isOwner
-              ? <button onClick={() => handleRemove(blog)}>Remove</button>
-              : null
-            }
-          </>
+          <p>{blog.author}</p>
+          <p>{`${blog.likes} like(s)`} <button onClick={() => addLike(blog)}>Like</button></p>
+          <p>{blog.url}</p>
+          { isOwner
+            ? <button onClick={() => handleRemove(blog)}>Remove</button>
+            : null
+          }
+        </>
         : null
       }
     </div>
-  )  
+  )
+}
+
+Blog.propTypes = {
+  blog: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired
 }
 
 export default Blog
