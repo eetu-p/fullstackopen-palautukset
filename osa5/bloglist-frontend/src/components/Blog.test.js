@@ -26,7 +26,9 @@ test("only blog title is rendered by default", () => {
 		id: "1234"
 	}
 
-  render(<Blog blog={blog} user={user} />)
+  const mockHandler = jest.fn()
+
+  render(<Blog blog={blog} user={user} addLike={mockHandler} />)
 
   const titleElement = screen.getByText("Blog title")
   const authorElement = screen.queryByText("Blog author")
@@ -61,7 +63,9 @@ test("all blog info is shown when the show button is pressed", async () => {
 		id: "1234"
 	}
 
-  render(<Blog blog={blog} user={userInfo} />)
+  const mockHandler = jest.fn()
+
+  render(<Blog blog={blog} user={userInfo} addLike={mockHandler} />)
 
   const user = userEvent.setup()
   const button = screen.getByText("Show")
