@@ -77,3 +77,39 @@ test("all blog info is shown when the show button is pressed", async () => {
   expect(urlElement).toBeDefined()
   expect(likesElement).toBeDefined()
 })
+
+test("call addLike proper number of times", async () => {
+
+  const blog = {
+    title: "Blog title",
+    author: "Blog author",
+    url: "Blog URL",
+    likes: 1,
+    user: {
+      username: "Test user",
+      name: "Matti Meikäläinen",
+      id: "1234"
+    },
+    id: "ABCD"
+  }
+
+  const userInfo = 	{
+		username: "Test user",
+		name: "Matti Meikäläinen",
+		blogs: [],
+		id: "1234"
+	}
+
+  const mockHandler = jest.fn()
+
+  render(<Blog blog={blog} user={userInfo} addLike={mockHandler} />)
+
+  const user = userEvent.setup()
+  const showButton = screen.getByText("Show")
+  await user.click(showButton)
+  const likeButton = screen.getByText('Like')
+  await user.click(likeButton)
+  await user.click(likeButton)
+
+  expect(mockHandler.mock.calls).toHaveLength(2)
+})

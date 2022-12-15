@@ -2,19 +2,10 @@ import { useEffect, useState } from 'react'
 import blogService from '../services/blogs'
 import PropTypes from 'prop-types'
 
-const Blog = ({ blog, user }) => {
+const Blog = ({ blog, user, addLike }) => {
 
   const [showInfo, setShowInfo] = useState(false)
   const [isOwner, setIsOwner] = useState(false)
-
-  const addLike = blog => {
-    const updatedBlog = {
-      ...blog,
-      user: blog.user._id,
-      likes: blog.likes + 1
-    }
-    blogService.update(blog.id, updatedBlog)
-  }
 
   const handleRemove = blog => {
     if (window.confirm(`Are you sure you want to remove "${blog.title}" by ${blog.author}?`)) {

@@ -37,6 +37,15 @@ const App = () => {
     }
   }
 
+  const addLike = blog => {
+    const updatedBlog = {
+      ...blog,
+      user: blog.user._id,
+      likes: blog.likes + 1
+    }
+    blogService.update(blog.id, updatedBlog)
+  }
+
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
     if (loggedUserJSON) {
@@ -112,7 +121,7 @@ const App = () => {
             if (a.likes < b.likes) return 1
             return 0
           })
-          .map(blog => <Blog key={blog.id} blog={blog} user={user} />)
+          .map(blog => <Blog key={blog.id} blog={blog} user={user} addLike={addLike} />)
         }
       </div>
     </div>
