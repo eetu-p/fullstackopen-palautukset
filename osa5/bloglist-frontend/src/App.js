@@ -94,11 +94,11 @@ const App = () => {
         <form onSubmit={event => handleLogin(event)}>
           <div>
             <label>Username </label>
-            <input type="text" onChange={({ target }) => setUsername(target.value)} />
+            <input id="username" type="text" onChange={({ target }) => setUsername(target.value)} />
           </div>
           <div>
             <label>Password </label>
-            <input type="password" onChange={({ target }) => setPassword(target.value)} />
+            <input id="password" type="password" onChange={({ target }) => setPassword(target.value)} />
           </div>
           <button type="submit">Login</button>
         </form>
