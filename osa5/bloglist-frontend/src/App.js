@@ -31,6 +31,7 @@ const App = () => {
     blogFormRef.current.toggleVisibility()
     try {
       await blogService.create(blogObject)
+        .then(returnedBlog => setBlogs(blogs.concat(returnedBlog)))
       setNotification({ message: 'blog added successfully', isError: false })
     } catch (error) {
       setNotification({ message: 'error adding blog', isError: true })
@@ -44,6 +45,7 @@ const App = () => {
       likes: blog.likes + 1
     }
     blogService.update(blog.id, updatedBlog)
+      .then(returnedBlog => setBlogs(blogs.map(oldBlog => oldBlog.id === blog.id ? returnedBlog : oldBlog)))
   }
 
   useEffect(() => {

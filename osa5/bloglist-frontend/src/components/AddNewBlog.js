@@ -30,7 +30,7 @@ export const AddNewBlog = ({ addNewBlog }) => {
         <label>URL </label>
         <input id="url" type="text" value={url} onChange={({ target }) => setUrl(target.value)} />
       </div>
-      <button type="submit">Create</button>
+      <button id="create-button" type="submit">Create</button>
     </form>
   )
 }
