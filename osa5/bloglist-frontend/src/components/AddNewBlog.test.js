@@ -21,5 +21,5 @@ test('<AddNewBlog /> callback function has right information', async () => {
   await user.click(createButton)
 
   expect(addNewBlog.mock.calls).toHaveLength(1)
-  expect(addNewBlog.mock.calls[0][0]).toStrictEqual({ title: "Blog title", author: "Blog author", url: "Blog URL" })
+  expect(addNewBlog.mock.calls[0][0]).toStrictEqual({ title: 'Blog title', author: 'Blog author', url: 'Blog URL' })
 })

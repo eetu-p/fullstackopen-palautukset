@@ -5,7 +5,6 @@ const mongoose = require('mongoose')
 require("dotenv/config")
 const express = require("express")
 const blogsRouter = express.Router()
-const User = require("../models/user")
 const jwt = require('jsonwebtoken')
 const middleware = require('../utils/middleware')
 
