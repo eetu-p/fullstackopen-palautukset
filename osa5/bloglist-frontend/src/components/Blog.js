@@ -1,32 +1,23 @@
 import { useEffect, useState } from 'react'
-import blogService from '../services/blogs'
 import PropTypes from 'prop-types'
 
-const Blog = ({ blog, user, addLike }) => {
+const Blog = ({ blog, user, addLike, removeBlog }) => {
 
   const [showInfo, setShowInfo] = useState(false)
   const [isOwner, setIsOwner] = useState(false)
 
-  const handleRemove = blog => {
-    if (window.confirm(`Are you sure you want to remove "${blog.title}" by ${blog.author}?`)) {
-      blogService.remove(blog.id)
-    }
-  }
-
-  useEffect(() => {
-    if (blog.user && user.username === blog.user.username) setIsOwner(true)
-  }, [])
+  useEffect(() => setIsOwner(blog.user && blog.user.username === user.username), [])
 
   return (
     <div className="blog-info">
-      {blog.title} <button onClick={() => setShowInfo(!showInfo)}>{showInfo ? 'Hide' : 'Show'}</button>
+      {blog.title} <button className="toggle-blog" onClick={() => setShowInfo(!showInfo)}>{showInfo ? 'Hide' : 'Show'}</button>
       { showInfo
         ? <>
           <p>{blog.author}</p>
           <p>{`${blog.likes} like(s)`} <button onClick={() => addLike(blog)}>Like</button></p>
           <p>{blog.url}</p>
           { isOwner
-            ? <button onClick={() => handleRemove(blog)}>Remove</button>
+            ? <button className="remove" onClick={() => removeBlog(blog)}>Remove</button>
             : null
           }
         </>
